@@ -1,11 +1,10 @@
 import { Clock } from "three";
 
 class Loop {
-  constructor(camera, scene, renderer, cssRenderer) {
+  constructor(camera, scene, renderer) {
     this.camera = camera;
     this.scene = scene;
     this.renderer = renderer;
-    this.cssRenderer = cssRenderer;
     // list of animated objects
     this.updatables = [];
   }
@@ -16,13 +15,11 @@ class Loop {
       this.tick();
       // render a frame
       this.renderer.render(this.scene, this.camera);
-      this.cssRenderer.render(this.scene, this.camera);
     });
   }
 
   stop() {
     this.renderer.setAnimationLoop(null);
-    this.cssRenderer.setAnimationLoop(null);
   }
 
   tick() {

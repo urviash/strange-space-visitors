@@ -1,5 +1,4 @@
 import { WebGLRenderer } from 'three';
-import { CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
 
 function createRenderer() {
   // IF SLOW: Remove antialiasing
@@ -11,13 +10,4 @@ function createRenderer() {
   return renderer;
 }
 
-function createCSSRenderer() {
-  const cssRenderer = new CSS2DRenderer();
-  cssRenderer.setSize(window.innerWidth, window.innerHeight);
-  cssRenderer.domElement.style.position = 'absolute';
-  cssRenderer.domElement.style.top = '0';
-  
-  return cssRenderer;
-}
-
-export { createRenderer, createCSSRenderer };
+export { createRenderer };

@@ -10,7 +10,6 @@ import {
     Vector3,
     BufferGeometry
 } from 'three';
-import { CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
 import { toWorldUnits } from '../utils/scaler.js';
 
@@ -26,22 +25,9 @@ function createLine() {
 }
 
 function createObject(text, position) {
-    const element = document.createElement('div');
-    element.className = 'orbit-label';
-    element.textContent = text;
-    element.style.marginTop = '-1em'; // Adjust for better centering
-
-    const label = new CSS2DObject(element);
-
     const linePoint = createLine();
-    label.position.set(linePoint.endpoint.x, linePoint.endpoint.y, linePoint.endpoint.z);
 
-    label.tick = (delta) => {
-        // Update label visibility and occlusion
-        updateLabels(camera, labels, sphereCenter, sphereRadius);
-    }
-
-    return {obj: label, line: linePoint.line};
+    return {obj: null, line: linePoint.line};
 }
 
 export { createObject }

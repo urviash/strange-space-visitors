@@ -4,6 +4,7 @@ import {
   Mesh,
   MeshStandardMaterial,
   TextureLoader,
+  Vector3
 } from 'three';
 import { toWorldUnits } from '../utils/scaler.js';
 import { createObject } from './object.js';
@@ -66,7 +67,7 @@ function createMainMeshGroup() {
   group.add(earth);
 
   // Example of adding elements
-  const objGroup = createObject('Satellite 1', { x: toWorldUnits(6371000), y: toWorldUnits(6371000), z: toWorldUnits(6371000*1.5) });
+  const objGroup = createObject('', new Vector3(0, 0, toWorldUnits(6371000) * -1.5));
   group.add(objGroup.obj, objGroup.line);
   
   group.tick = (delta) => {};

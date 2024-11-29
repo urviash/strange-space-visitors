@@ -3,7 +3,7 @@ import { createMainMeshGroup } from '../../components/mainMeshGroup.js';
 import { createScene } from '../../components/scene.js';
 import { createLights } from '../../components/lights.js';
 
-import { createRenderer, createCSSRenderer } from '../../systems/renderer.js';
+import { createRenderer } from '../../systems/renderer.js';
 import { Resizer } from '../../systems/Resizer.js';
 import { Loop } from '../../systems/Loop.js';
 import { createControls } from '../../systems/controls.js';
@@ -12,7 +12,6 @@ import { createControls } from '../../systems/controls.js';
 // from outside the module
 let camera;
 let renderer;
-let cssRenderer;
 let scene;
 let loop;
 
@@ -21,14 +20,12 @@ class World {
     camera = createCamera();
     scene = createScene();
     renderer = createRenderer();
-    cssRenderer = createCSSRenderer();
-    loop = new Loop(camera, scene, renderer, cssRenderer);
+    loop = new Loop(camera, scene, renderer);
 
     // Adding the canvas to #scene-container.
     container.append(renderer.domElement);
-    container.append(cssRenderer.domElement);
 
-    const controls = createControls(camera, renderer.domElement, cssRenderer.domElement);
+    const controls = createControls(camera, renderer.domElement);
 
     const meshGroup = createMainMeshGroup();
     const { ambientLight, mainLight } = createLights();
