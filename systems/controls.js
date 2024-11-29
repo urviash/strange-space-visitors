@@ -17,7 +17,7 @@ function createControls(camera, canvas) {
     // controls.minPolarAngle = 0; // default
     // controls.maxPolarAngle = Math.PI; // default
 
-    controls.tick = () => controls.update();
+    controls.tick = (cameraPos) => controls.update();
 
     return controls;
 }

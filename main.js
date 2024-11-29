@@ -1,8 +1,5 @@
 import { World } from './src/World/World.js';
 
-// To be used to dynamically resolve paths for project assets.
-let baseURL = window.location.origin + window.location.pathname.split('/').slice(0, -1).join('/');
-
 function main() {
     // Get a reference to the container element
     const container = document.querySelector('#scene-container');
@@ -19,5 +16,3 @@ function main() {
 
 // call main to start the app
 main();
-
-export { baseURL }

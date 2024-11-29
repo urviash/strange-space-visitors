@@ -27,11 +27,11 @@ class World {
 
     const controls = createControls(camera, renderer.domElement);
 
-    const meshGroup = createMainMeshGroup();
+    const meshGroup = createMainMeshGroup(camera.position);
     const { ambientLight, mainLight } = createLights();
 
     // Continuous mesh rotation
-    // loop.updatables.push(meshGroup);
+    loop.updatables.push(...meshGroup.children?.filter(child => child.isGroup));
     loop.updatables.push(controls);
 
     scene.add(ambientLight, mainLight, meshGroup);

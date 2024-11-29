@@ -25,7 +25,7 @@ class Loop {
   tick() {
     for (const object of this.updatables) {
       // will run sixty times per second so keep the amount of work done here to a minimum.
-      object.tick();
+      object.tick(this.camera.position);
     }
   }
 }
