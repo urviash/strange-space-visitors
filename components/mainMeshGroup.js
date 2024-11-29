@@ -7,10 +7,12 @@ import {
 } from 'three';
 import { toWorldUnits } from '../utils/scaler.js';
 import { createObject } from './object.js';
+import { baseURL } from '../main.js';
 
 function createEarthMaterial() {
+  let mapImagePath = `${baseURL}/public/world.topo.200410.3x5400x2700.jpg`;
   // let mapImagePath = '../public/cloud_combined_2048.jpg';
-  let mapImagePath = '../public/world.topo.200410.3x5400x2700.jpg';
+  // let mapImagePath = '../public/world.topo.200410.3x5400x2700.jpg';
 
   // create a texture loader.
   const textureLoader = new TextureLoader();
