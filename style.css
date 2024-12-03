@@ -1,3 +1,7 @@
+:root {
+  --bg-color: #1D2021;
+}
+
 body {
   /* remove margins and scroll bars */
   margin: 0;
@@ -31,14 +35,5 @@ h1 {
     Set the container's background color to the same as the scene's
     background to prevent flashing on load
   */
-  background-color: skyblue;
-}
-
-.orbit-label {
-  font-family: Arial, sans-serif;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 5px;
-  border-radius: 3px;
-  pointer-events: none; /* Avoid interference with mouse interactions */
+  background-color: var(--bg-color);
 }

@@ -1,9 +1,10 @@
-import { Color, Scene } from 'three';
+import { Scene } from 'three';
+import { bgColor } from '../utils/colorPalette.js';
 
 function createScene() {
   const scene = new Scene();
 
-  scene.background = new Color('#1D2021');
+  scene.background = bgColor;
 
   return scene;
 }
