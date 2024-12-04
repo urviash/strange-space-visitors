@@ -24,7 +24,7 @@ function createLine() {
     return line;
 }
 
-function createObjMesh() {
+function createObjMesh(data) {
     const canvas = document.createElement('canvas');
     // Texture resolution
     canvas.width = 512;
@@ -44,12 +44,12 @@ function createObjMesh() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         // Bottom 1/4 for text
-        ctx.fillText('HELLO WORLD!', canvas.width / 2, canvas.height * 0.875);
+        ctx.fillText(`${data.name} (${data.year})`, canvas.width / 2, canvas.height * 0.875);
 
         // Update texture
         texture.needsUpdate = true;
     };
-    img.src = `${baseURL}/public/obj-images/Img4.jpg`;
+    img.src = `${baseURL}${data.img_path}`;
 
     const texture = new CanvasTexture(canvas);
     const geometry = new PlaneGeometry(10, 10);
@@ -63,10 +63,10 @@ function createObjMesh() {
     return mesh;
 }
 
-function createObjectGroup() {
+function createObjectGroup(data) {
     const group = new Group();
 
-    const objMesh = createObjMesh();
+    const objMesh = createObjMesh(data);
     const line = createLine();
     
     group.add(objMesh, line);

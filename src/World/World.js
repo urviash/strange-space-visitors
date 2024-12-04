@@ -16,7 +16,7 @@ let scene;
 let loop;
 
 class World {
-  constructor(container) {
+  constructor(container, data) {
     camera = createCamera();
     scene = createScene();
     renderer = createRenderer();
@@ -27,7 +27,7 @@ class World {
 
     const controls = createControls(camera, renderer.domElement);
 
-    const meshGroup = createMainMeshGroup(camera.position);
+    const meshGroup = createMainMeshGroup(data);
     const { ambientLight, mainLight } = createLights();
 
     // Continuous mesh rotation

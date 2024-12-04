@@ -1,0 +1,59 @@
+[
+    {
+      "name": "Starman",
+      "desc": "SpaceX launched a Tesla with a mannequin astronaut called Starman into space.",
+      "year": 2018,
+      "max_alt": 390000000000,
+      "img_path": "/public/obj-images/Starman.jpg"
+    },
+    {
+      "name": "Giant Disco Ball",
+      "desc": "American aerospace company Rocket Lab sent a giant disco ball called the Humanity Star into space. It was 3 feet in diameter and featured 65 reflective panels.",
+      "year": 2018,
+      "max_alt": 520000,
+      "img_path": "/public/obj-images/HumanityStar.png"
+    },
+    {
+      "name": "Big Mac",
+      "desc": "As part of a promotional stunt for McDelivery, McDonald's Big Mac and fries were sent to the edge of space aboard a weather balloon. The meal was safely brought back to Earth after the balloon burst.",
+      "year": 2019,
+      "max_alt": 30580,
+      "img_path": "/public/obj-images/BigMac.png"
+    },
+    {
+      "name": "Lego Man",
+      "desc": "Two teenagers from Toronto, Canada, launched a 'Lego Man in Space' using a helium-filled weather balloon and captured breathtaking video footage of the miniature toy figure.",
+      "year": 2012,
+      "max_alt": 25000,
+      "img_path": "/public/obj-images/LegoMan.jpg"
+    },
+    {
+      "name": "Running Shoes",
+      "desc": "The YouTube channel The Running Channel partnered with Brooks to send a pair of running shoes into Stratosphere",
+      "year": 2022,
+      "max_alt": 37188,
+      "img_path": "/public/obj-images/shoes.png"
+    },
+    {
+      "name": "KitKat",
+      "desc": "In 2012, Kit Kat launched a campaign called 'Goes To Space! #BreakFromGravity' to support Felix Baumgartner's record-breaking skydive",
+      "year": 2012,
+      "max_alt": 35500,
+      "img_path": "/public/obj-images/kitkat.png"
+    },
+    {
+      "name": "Slice of Pizza and book",
+      "desc": "YouTuber Nick DiGiovanni sent a slice of pizza and his book, Knife Drop, into space, tethered to a balloon",
+      "year": 2022,
+      "max_alt": 30480,
+      "img_path": "/public/obj-images/Pizza.png"
+    },
+    {
+      "name": "Kermit The Frog",
+      "desc": "In 2023, Kermit the Frog was sent into space aboard a high-altitude weather balloon",
+      "year": 2023,
+      "max_alt": 36576,
+      "img_path": "/public/obj-images/kermit.png"
+    }
+  ]
+  

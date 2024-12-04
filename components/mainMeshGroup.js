@@ -62,17 +62,22 @@ function createEarth() {
   return earth;
 }
 
-function createMainMeshGroup(cameraPos) {
+function createMainMeshGroup(data) {
   const group = new Group();
 
   const earth = createEarth();
   group.add(earth);
 
   // Example of adding elements
-  const objGroup = createObjectGroup(null);
+  // const data = {
+  //   name: 'Garlic Bread',
+  //   year: '2018',
+  //   img_path: '/public/obj-images/Img4.jpg'
+  // }
+  const objGroup = createObjectGroup(data[1]);
   group.add(objGroup);
   
-  group.tick = (cameraPos) => {
+  group.tick = () => {
     objGroup.tick();
   };
 
