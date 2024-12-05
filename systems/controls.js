@@ -8,8 +8,8 @@ function createControls(camera, canvas) {
     controls.autoRotate = true;
     controls.autoRotateSpeed = 1;
 
-    // controls.minDistance = 5;
-    // controls.maxDistance = 20;
+    controls.minDistance = 2;
+    controls.maxDistance = 10;
 
     // controls.minAzimuthAngle = - Infinity; // default
     // controls.maxAzimuthAngle = Infinity; // default
