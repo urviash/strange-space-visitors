@@ -7,28 +7,28 @@ import {
     Line,
     Vector3,
     BufferGeometry,
-    Group
+    Group,
+    LinearFilter
 } from 'three';
 
-import { toWorldUnits } from '../utils/scaler.js';
 import { baseURL } from '../utils/pathResolver.js';
 
-function createLine() {
+function createLine(pos) {
     // Create the line
     const lineMaterial = new LineBasicMaterial({ color: 0xff0000 });
     // TO DO: Single source of truth for earthRadius var
-    const points = [new Vector3(0, 0, 0), new Vector3(0, 0, toWorldUnits(6371000) * -1.5)];
+    const points = [new Vector3(0, 0, 0), new Vector3(pos.x, pos.y, pos.z)];
     const lineGeometry = new BufferGeometry().setFromPoints(points);
     const line = new Line(lineGeometry, lineMaterial);
 
     return line;
 }
 
-function createObjMesh(data) {
+function createObjMesh(data, pos) {
     const canvas = document.createElement('canvas');
     // Texture resolution
-    canvas.width = 512;
-    canvas.height = 512;
+    canvas.width = 256;
+    canvas.height = 256;
 
     const ctx = canvas.getContext('2d');
 
@@ -52,22 +52,25 @@ function createObjMesh(data) {
     img.src = `${baseURL}${data.img_path}`;
 
     const texture = new CanvasTexture(canvas);
-    const geometry = new PlaneGeometry(10, 10);
+    texture.minFilter = LinearFilter;
+    texture.magFilter = LinearFilter;
+
+    const geometry = new PlaneGeometry(0.5, 0.5);
     const material = new MeshBasicMaterial({ map: texture, transparent: true });
     const mesh = new Mesh(geometry, material);
 
     // Set the mesh position
-    mesh.position.set(0, 0, toWorldUnits(6371000) * -1.5);
+    mesh.position.set(pos.x, pos.y, pos.z);
     mesh.frustumCulled = true;
 
     return mesh;
 }
 
-function createObjectGroup(data) {
+function createObjectGroup(data, pos) {
     const group = new Group();
 
-    const objMesh = createObjMesh(data);
-    const line = createLine();
+    const objMesh = createObjMesh(data, pos);
+    const line = createLine(pos);
     
     group.add(objMesh, line);
 

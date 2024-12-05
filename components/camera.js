@@ -1,8 +1,8 @@
 import { PerspectiveCamera } from 'three';
 import { toWorldUnits, scaleAltitude } from '../utils/scaler.js';
 
-// Karman line height 6471000m from the center of the Earth, converted into World units
-let initialDist = toWorldUnits(scaleAltitude(6471000*3));
+// 2.2 times the Karman line height 6471000m from the center of the Earth, converted into World units
+let initialDist = toWorldUnits(6471000*2.2);
 console.log(initialDist)
 
 function createCamera() {

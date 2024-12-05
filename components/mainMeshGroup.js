@@ -6,9 +6,26 @@ import {
   TextureLoader,
   Vector3
 } from 'three';
-import { toWorldUnits } from '../utils/scaler.js';
+import { scaleAltitude, toWorldUnits } from '../utils/scaler.js';
 import { createObjectGroup } from './object.js';
 import { baseURL } from '../utils/pathResolver.js';
+
+function getPosition(alt, index, total) {
+  const scaledAlt = scaleAltitude(alt);
+
+  // Evenly distribute angles
+  const theta = (2 * Math.PI * index) / total; // Longitude angle
+  const phi = Math.acos(1 - 2 * (index + 0.5) / total); // Latitude angle using Golden Angle
+
+  // Spherical to Cartesian
+  const pos = {
+    x: scaledAlt * Math.sin(phi) * Math.cos(theta),
+    y: scaledAlt * Math.sin(phi) * Math.sin(theta),
+    z: scaledAlt * Math.cos(phi)
+  }
+
+  return pos;
+}
 
 function createEarthMaterial() {
   let mapImagePath = `${baseURL}/public/world.topo.200410.3x5400x2700.jpg`;
@@ -68,14 +85,12 @@ function createMainMeshGroup(data) {
   const earth = createEarth();
   group.add(earth);
 
-  // Example of adding elements
-  // const data = {
-  //   name: 'Garlic Bread',
-  //   year: '2018',
-  //   img_path: '/public/obj-images/Img4.jpg'
-  // }
-  const objGroup = createObjectGroup(data[1]);
-  group.add(objGroup);
+  const objectCount = data.length || 0;
+  data.forEach((item, index) => {
+    const pos = getPosition(item.max_alt, index, objectCount);
+    const objGroup = createObjectGroup(item, pos);
+    group.add(objGroup);
+  })
   
   group.tick = () => {
     objGroup.tick();
