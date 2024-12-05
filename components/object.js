@@ -66,30 +66,44 @@ function createObjMesh(data, pos) {
     const canvas = document.createElement('canvas');
     // Texture resolution
     canvas.width = 256;
-    canvas.height = 256;
+    canvas.height = 360; // Increase height to accommodate the Polaroid style
 
     const ctx = canvas.getContext('2d');
 
-    // Load custom font
+    // Define styling
     const fontFace = 'Orbitron'; // Example digital/space font
-    const fontSize = 20; // Adjust font size as needed
+    const fontSize = 18; // Font size for the text
     const lineHeight = fontSize * 1.2; // Line height for text wrapping
 
-    // Draw image and text
+    // Define polaroid frame dimensions
+    const frameColor = '#ffffff';
+    const borderThickness = 10; // Thickness of the border
+    const bottomMarginHeight = 60; // Extra space at the bottom for text
+
+    const imgHeight = canvas.height - bottomMarginHeight - 2 * borderThickness;
+
+    // Load image
     const img = new Image();
     img.onload = () => {
-        // Draw the image on the top 3/4 of the canvas
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height * 0.70);
+        // Draw the polaroid frame (white border)
+        ctx.fillStyle = frameColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw the text below the image
-        ctx.fillStyle = '#ffffff';
-        ctx.font = `${fontSize}px ${fontFace}`;
+        // Draw the image inside the frame
+        const imageX = borderThickness;
+        const imageY = borderThickness;
+        const imageWidth = canvas.width - 2 * borderThickness;
+        ctx.drawImage(img, imageX, imageY, imageWidth, imgHeight);
+
+        // Draw the text in the bottom margin
+        ctx.fillStyle = '#000000'; // Black text for better contrast
+        ctx.font = `bold ${fontSize}px ${fontFace}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
         const maxTextWidth = canvas.width - 20; // Add padding for text
         const textX = canvas.width / 2;
-        const textY = canvas.height * 0.8; // Start slightly above bottom edge
+        const textY = canvas.height - bottomMarginHeight / 1.5;
 
         const labelText = `${data.name} (${data.year})`;
         wrapText(ctx, labelText, textX, textY, maxTextWidth, lineHeight);
@@ -103,7 +117,7 @@ function createObjMesh(data, pos) {
     texture.minFilter = LinearFilter;
     texture.magFilter = LinearFilter;
 
-    const geometry = new PlaneGeometry(0.5, 0.5);
+    const geometry = new PlaneGeometry(0.6, 0.75); // Adjust to match the new aspect ratio
     const material = new MeshBasicMaterial({ map: texture, transparent: true });
     const mesh = new Mesh(geometry, material);
 

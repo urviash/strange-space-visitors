@@ -31,4 +31,11 @@ async function main() {
     world.start();
 }
 
-document.addEventListener("DOMContentLoaded", async () => main());
+document.addEventListener("DOMContentLoaded", async () => {
+  // Wait to load custom font
+  const fontFace = 'Orbitron';
+  const fontSize = 18;
+  await document.fonts.load(`bold ${fontSize}px ${fontFace}`);
+
+  main()
+});
