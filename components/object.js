@@ -9,8 +9,11 @@ import {
     BufferGeometry,
     Group,
     LinearFilter,
-    BufferAttribute
+    BufferAttribute,
+    Quaternion
 } from 'three';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
 import { baseURL } from '../utils/pathResolver.js';
 
@@ -40,11 +43,33 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
     }
 }
 
-function createLine(pos) {
+// function createLine(pos) {
+//     const points = [new Vector3(0, 0, 0), new Vector3(pos.x, pos.y, pos.z)];
+//     const lineGeometry = new BufferGeometry().setFromPoints(points);
+
+//     // Define colors for each vertex
+//     const colors = new Float32Array([
+//         0x30 / 255, 0x3C / 255, 0x40 / 255, // RGB for #303C40 (start color)
+//         0x00 / 255, 0x00 / 255, 0x00 / 255, // RGB for black (end color)
+//     ]);
+
+//     lineGeometry.setAttribute('color', new BufferAttribute(colors, 3));
+
+//     // Use a material that supports vertex colors
+//     const lineMaterial = new LineBasicMaterial({
+//         vertexColors: true, // Enable vertex colors
+//     });
+
+//     const line = new Line(lineGeometry, lineMaterial);
+
+//     return line;
+// }
+
+function createLineWith3DLabel(pos, max_alt, fontURL) {
+    // Create the line
     const points = [new Vector3(0, 0, 0), new Vector3(pos.x, pos.y, pos.z)];
     const lineGeometry = new BufferGeometry().setFromPoints(points);
 
-    // Define colors for each vertex
     const colors = new Float32Array([
         0x30 / 255, 0x3C / 255, 0x40 / 255, // RGB for #303C40 (start color)
         0x00 / 255, 0x00 / 255, 0x00 / 255, // RGB for black (end color)
@@ -52,14 +77,50 @@ function createLine(pos) {
 
     lineGeometry.setAttribute('color', new BufferAttribute(colors, 3));
 
-    // Use a material that supports vertex colors
     const lineMaterial = new LineBasicMaterial({
-        vertexColors: true, // Enable vertex colors
+        vertexColors: true,
     });
 
     const line = new Line(lineGeometry, lineMaterial);
 
-    return line;
+    // Create a group to hold the line and the text
+    const group = new Group();
+    group.add(line);
+
+    // Load the font and create the 3D text
+    const loader = new FontLoader();
+    loader.load(fontURL, (font) => {
+        const textGeometry = new TextGeometry(`${(max_alt / 1000).toFixed(0)} km`, {
+            font: font,
+            size: 0.05, // Adjust size for visibility
+            height: 0.01, // Thickness of the text
+            curveSegments: 24, // Quality of the text curves
+            bevelEnabled: false, // Disable bevel for simplicity
+        });
+
+        const textMaterial = new MeshBasicMaterial({ color: 0xffffff }); // White text
+        const textMesh = new Mesh(textGeometry, textMaterial);
+
+        // Calculate direction vector and rotation
+        const direction = new Vector3().subVectors(pos, new Vector3(0, 0, 0)).normalize();
+
+        // Position the text at 80% along the line
+        const textPosition = new Vector3(
+            pos.x * 0.6,
+            pos.y * 0.6,
+            pos.z * 0.6
+        );
+        textMesh.position.copy(textPosition);
+
+        // Align text with the line direction
+        const axis = new Vector3(1, 0, 0); // Default "up" vector
+        const quaternion = new Quaternion().setFromUnitVectors(axis, direction);
+        textMesh.quaternion.copy(quaternion);
+
+        group.add(textMesh);
+    });
+
+    return group;
 }
 
 function createObjMesh(data, pos) {
@@ -132,7 +193,9 @@ function createObjectGroup(data, pos) {
     const group = new Group();
 
     const objMesh = createObjMesh(data, pos);
-    const line = createLine(pos);
+
+    const fontURL = `${baseURL}/public/fonts/Orbitron_Regular.json`;
+    const line = createLineWith3DLabel(pos, data.max_alt, fontURL);
     
     group.add(objMesh, line);
 
