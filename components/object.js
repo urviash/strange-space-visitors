@@ -43,28 +43,6 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
     }
 }
 
-// function createLine(pos) {
-//     const points = [new Vector3(0, 0, 0), new Vector3(pos.x, pos.y, pos.z)];
-//     const lineGeometry = new BufferGeometry().setFromPoints(points);
-
-//     // Define colors for each vertex
-//     const colors = new Float32Array([
-//         0x30 / 255, 0x3C / 255, 0x40 / 255, // RGB for #303C40 (start color)
-//         0x00 / 255, 0x00 / 255, 0x00 / 255, // RGB for black (end color)
-//     ]);
-
-//     lineGeometry.setAttribute('color', new BufferAttribute(colors, 3));
-
-//     // Use a material that supports vertex colors
-//     const lineMaterial = new LineBasicMaterial({
-//         vertexColors: true, // Enable vertex colors
-//     });
-
-//     const line = new Line(lineGeometry, lineMaterial);
-
-//     return line;
-// }
-
 function createLineWith3DLabel(pos, max_alt, fontURL) {
     const points = [new Vector3(0, 0, 0), new Vector3(pos.x, pos.y, pos.z)];
     const lineGeometry = new BufferGeometry().setFromPoints(points);

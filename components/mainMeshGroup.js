@@ -2,9 +2,11 @@ import {
   SphereGeometry,
   Group,
   Mesh,
+  MeshBasicMaterial,
   MeshStandardMaterial,
   TextureLoader,
-  Vector3
+  RepeatWrapping,
+  DoubleSide
 } from 'three';
 import { scaleAltitude, toWorldUnits } from '../utils/scaler.js';
 import { createObjectGroup } from './object.js';
@@ -28,52 +30,58 @@ function getPosition(alt, index, total) {
 }
 
 function createEarthMaterial() {
-  let mapImagePath = `${baseURL}/public/world.topo.200410.3x5400x2700.jpg`;
-  // let mapImagePath = '../public/cloud_combined_2048.jpg';
-  // let mapImagePath = '../public/world.topo.200410.3x5400x2700.jpg';
+  const mapImagePath = `${baseURL}/public/world.topo.200410.3x5400x2700.jpg`;
+  const cloudImagePath = `${baseURL}/public/clouds-alpha.png`;
 
-  // create a texture loader.
+  // Create a texture loader
   const textureLoader = new TextureLoader();
 
-  // load a texture
-  const texture = textureLoader.load(
-    mapImagePath,
-  );
+  // Load the Earth's surface texture
+  const texture = textureLoader.load(mapImagePath);
 
-  // TO DO: Add clouds texture layer
+  // Load the clouds texture
+  const cloudTexture = textureLoader.load(cloudImagePath);
+  cloudTexture.wrapS = cloudTexture.wrapT = RepeatWrapping;
+  // cloudTexture.encoding = sRGBEncoding;
 
-  // create a "standard" material using
-  // the texture we just loaded as a color map
-  const material = new MeshStandardMaterial({
+  const earthMaterial = new MeshStandardMaterial({
     map: texture,
   });
 
-  return material;
+  // semi-transparent material for clouds
+  const cloudMaterial = new MeshBasicMaterial({
+    map: cloudTexture,
+    side: DoubleSide,
+    transparent: true,
+    opacity: 0.8,
+    depthWrite: false,  // avoid occlusion with the Earth surface
+  });
+
+  return { earthMaterial, cloudMaterial };
 }
 
 function createEarth() {
-  // Earth's radius converted from meters
-  let earthRadius = toWorldUnits(6371000);
+  const radius = toWorldUnits(6371000);
 
-  // create a geometry
-  const geometry = new SphereGeometry(earthRadius, 32, 32);
-  // const geometry = new BoxGeometry();
+  const geometry = new SphereGeometry(radius, 64, 64);
 
-  const material = createEarthMaterial();
+  const { earthMaterial, cloudMaterial } = createEarthMaterial();
+  
+  const earthMesh = new Mesh(geometry, earthMaterial);
+  // slightly larger sphere for the clouds
+  const cloudGeometry = new SphereGeometry(radius * 1.01, 64, 64);
+  const cloudMesh = new Mesh(cloudGeometry, cloudMaterial);
+  cloudMesh.name = "cloudMesh";
+  
+  cloudMesh.tick = () => {
+    cloudMesh.rotation.x -= 0.0005;    
+    cloudMesh.rotation.y += 0.0005;    
+    cloudMesh.rotation.z += 0.0005;    
+  }
 
-  // create a Mesh containing the geometry and material
-  const earth = new Mesh(geometry, material);
+  earthMesh.add(cloudMesh);
 
-  earth.rotation.set(-0.5, -0.1, 0.8);
-
-  earth.tick = () => {
-    // increase the sphere's rotation each frame
-    earth.rotation.z += 0.01;
-    earth.rotation.x += 0.01;
-    earth.rotation.y += 0.01;
-  };
-
-  return earth;
+  return earthMesh;
 }
 
 function createMainMeshGroup(data) {

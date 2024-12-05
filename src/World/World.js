@@ -32,6 +32,8 @@ class World {
 
     // Continuous mesh rotation
     loop.updatables.push(...meshGroup.children?.filter(child => child.isGroup));
+    const cloudMesh = meshGroup.getObjectByName("cloudMesh");
+    loop.updatables.push(cloudMesh);
     loop.updatables.push(controls);
 
     scene.add(ambientLight, mainLight, meshGroup);
