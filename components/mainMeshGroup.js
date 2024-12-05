@@ -66,9 +66,6 @@ function createEarth() {
 
   earth.rotation.set(-0.5, -0.1, 0.8);
 
-  // this method will be called once per frame
-  //TO DO: constant rotation rate using delta. 
-  // earth.tick = (delta, cameraPos) => {
   earth.tick = () => {
     // increase the sphere's rotation each frame
     earth.rotation.z += 0.01;
